@@ -17,6 +17,12 @@ body {
     > div {
       width: calc(100vw - 8rem);
       margin: 0 4rem;
+
+      &.dialog-opened {
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+      }
     }
   }
 }

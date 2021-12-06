@@ -1,5 +1,9 @@
 import React, { createRef, PureComponent, RefObject } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 
+import { currencyActions } from '../../../../redux/reducers/currencyReducer';
+import { IState } from '../../../../redux/reducers/rootReducer';
 import { CURRENCIES } from '../../../../service/queries/currencies';
 import { expandIcon } from '../../../../utils/constants';
 import withQuery from '../../../../utils/withQuery';
@@ -8,10 +12,11 @@ interface Props {
   data: {
     currencies: string[];
   };
+  chosenCurrency: string;
+  changeCurrency: (currency: string) => void;
 }
 
 interface State {
-  currentCurrency: string;
   currenciesDialogOpened: boolean;
   wrapperRef: RefObject<HTMLDivElement>;
 }
@@ -20,10 +25,8 @@ class CurrenciesPicker extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.openCloseCurrenciesDialog = this.openCloseCurrenciesDialog.bind(this);
-    this.handleChangeCurrency = this.handleChangeCurrency.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.state = {
-      currentCurrency: "USD",
       currenciesDialogOpened: false,
       wrapperRef: createRef<HTMLDivElement>(),
     };
@@ -47,12 +50,9 @@ class CurrenciesPicker extends PureComponent<Props, State> {
     this.setState({ currenciesDialogOpened });
   }
 
-  handleChangeCurrency(currentCurrency: string) {
-    this.setState({ currentCurrency, currenciesDialogOpened: false });
-  }
-
   render() {
-    const { currentCurrency, currenciesDialogOpened, wrapperRef } = this.state;
+    const { currenciesDialogOpened, wrapperRef } = this.state;
+    const { chosenCurrency, changeCurrency } = this.props;
 
     return (
       <div
@@ -60,7 +60,7 @@ class CurrenciesPicker extends PureComponent<Props, State> {
         onClick={() => this.openCloseCurrenciesDialog(!currenciesDialogOpened)}
         ref={wrapperRef}
       >
-        <span className={currentCurrency} />
+        <span className={chosenCurrency} />
 
         <img
           className={`expand ${
@@ -68,14 +68,12 @@ class CurrenciesPicker extends PureComponent<Props, State> {
           }`}
           src={expandIcon}
           alt=""
+          draggable={false}
         />
 
         <ul className={currenciesDialogOpened ? "currencies-opened" : ""}>
           {this.props.data?.currencies.map((currency) => (
-            <li
-              key={currency}
-              onClick={() => this.handleChangeCurrency(currency)}
-            >
+            <li key={currency} onClick={() => changeCurrency(currency)}>
               <span className={currency} />
               {currency}
             </li>
@@ -86,4 +84,20 @@ class CurrenciesPicker extends PureComponent<Props, State> {
   }
 }
 
-export default withQuery(CurrenciesPicker, CURRENCIES);
+const mapStateToProps = (state: IState) => ({
+  chosenCurrency: state.currency.chosenCurrency,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  changeCurrency: bindActionCreators(
+    currencyActions.chosenCurrency.set,
+    dispatch
+  ),
+});
+
+const CurrenciesPicker_Redux_Connected = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CurrenciesPicker);
+
+export default withQuery(CurrenciesPicker_Redux_Connected, CURRENCIES);

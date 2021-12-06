@@ -54,6 +54,7 @@ header {
   .brand {
     height: 2rem;
     width: auto;
+    cursor: pointer;
   }
 
   .header-actions {
@@ -109,8 +110,8 @@ header {
 
       .cart {
         position: absolute;
-        background: #e0e0e0;
-        top: 2rem;
+        background: #fff;
+        top: 3.25rem;
         right: 0;
         width: 20rem;
         height: 35rem;

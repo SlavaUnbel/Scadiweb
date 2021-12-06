@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { whiteCartIcon } from '../../../utils/constants';
 
 interface Props {
-  product: ProductParams;
+  product: IProduct;
   chosenCurrency: string;
 }
 
@@ -11,7 +11,7 @@ interface State {
   hovered: boolean;
 }
 
-export default class Product extends PureComponent<Props, State> {
+class Product extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.mouseEnter = this.mouseEnter.bind(this);
@@ -39,18 +39,32 @@ export default class Product extends PureComponent<Props, State> {
         className={`product ${hovered ? "hovered" : ""}`}
         onMouseEnter={this.mouseEnter}
         onMouseLeave={this.mouseLeave}
+        onClick={() => {
+          if (!inStock) return;
+        }}
       >
         <img
           src={gallery[0]}
           alt=""
           className={`product-image ${!inStock ? "out-of-stock" : ""}`}
+          draggable={false}
         />
 
         {!inStock && <p className="out-of-stock-text">out of stock</p>}
 
         {inStock && (
-          <div className={`cart-button ${hovered ? "appeared" : ""}`}>
-            <img src={whiteCartIcon} alt="" className="cart-icon" />
+          <div
+            className={`cart-button ${hovered ? "appeared" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <img
+              src={whiteCartIcon}
+              alt=""
+              className="cart-icon"
+              draggable={false}
+            />
           </div>
         )}
 
@@ -65,3 +79,5 @@ export default class Product extends PureComponent<Props, State> {
     );
   }
 }
+
+export default Product;

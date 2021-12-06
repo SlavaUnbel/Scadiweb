@@ -1,6 +1,10 @@
 /// <reference types="react-scripts" />
 
-interface ProductParams {
+interface Category {
+  name: string;
+}
+
+interface IProduct {
   name: string;
   inStock: boolean;
   gallery: string[];

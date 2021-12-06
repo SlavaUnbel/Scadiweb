@@ -15,8 +15,11 @@
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux": "^7.2.6",
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
+    "redux": "^4.1.2",
+    "redux-symbiote": "^3.4.0",
     "sass": "^1.44.0",
     "typescript": "^4.5.2",
     "web-vitals": "^1.1.2"

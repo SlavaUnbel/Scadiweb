@@ -1,52 +1,58 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 
+import { categoryActions } from '../../../redux/reducers/categoryReducer';
+import { IState } from '../../../redux/reducers/rootReducer';
 import { CATEGORIES } from '../../../service/queries/categories';
 import withQuery from '../../../utils/withQuery';
-
-type Category = {
-  name: string;
-};
 
 interface Props {
   data: {
     categories: Category[];
   };
+  activeCategory: string;
+  changeCategory: (category: string) => void;
 }
 
-interface State {
-  active: string;
-}
-
-class Categories extends PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.toggleActive = this.toggleActive.bind(this);
-    this.state = {
-      active: "",
-    };
-  }
-
-  toggleActive(active: string) {
-    this.setState({ active });
-  }
-
+class Categories extends PureComponent<Props> {
   render() {
-    const { active } = this.state;
+    const { activeCategory, changeCategory } = this.props;
 
     return (
       <nav>
-        {this.props.data?.categories?.map((category) => (
-          <li
-            key={category.name}
-            className={active === category.name ? "active" : ""}
-            onClick={() => this.toggleActive(category.name)}
-          >
-            {category.name}
-          </li>
-        ))}
+        {this.props.data?.categories?.map((category) => {
+          const name = category.name;
+
+          return (
+            <li
+              key={name}
+              className={activeCategory === name ? "active" : ""}
+              onClick={() => changeCategory(name)}
+            >
+              {name}
+            </li>
+          );
+        })}
       </nav>
     );
   }
 }
 
-export default withQuery(Categories, CATEGORIES);
+const mapStateToProps = (state: IState) => ({
+  activeCategory: state.category.activeCategory,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  changeCategory: bindActionCreators(
+    categoryActions.activeCategory.set,
+    dispatch
+  ),
+});
+
+const Categories_Redux_Connected = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Categories);
+
+export default withQuery(Categories_Redux_Connected, CATEGORIES);

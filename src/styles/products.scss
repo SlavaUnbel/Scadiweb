@@ -3,14 +3,34 @@
 .products {
   padding-top: 10rem;
 
+  &.dialog-opened {
+    background: rgba(57, 55, 72, 0.22);
+
+    h2 {
+      padding: 0 4rem 5.5rem;
+    }
+
+    .products-wrapper {
+      width: calc(100% - 8rem);
+      margin: 0 4rem;
+
+      .product {
+        margin: 1rem;
+        padding: 1rem;
+      }
+    }
+  }
+
   h2 {
     font-size: 2.625rem;
     font-weight: 400;
     padding-bottom: 5.5rem;
+    text-transform: capitalize;
   }
 
   .products-wrapper {
     @include flex(row wrap, center, space-around);
+    width: 100%;
 
     .product {
       @include flex(column nowrap, flex-start, center);

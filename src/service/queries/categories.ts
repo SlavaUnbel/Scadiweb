@@ -6,4 +6,4 @@ export const CATEGORIES = gql`
       name
     }
   }
-`
+`;

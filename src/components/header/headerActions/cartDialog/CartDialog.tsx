@@ -1,19 +1,25 @@
 import React, { createRef, PureComponent, RefObject } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 
+import { dialogActions } from '../../../../redux/reducers/dialogReducer';
+import { IState } from '../../../../redux/reducers/rootReducer';
 import { cartIcon } from '../../../../utils/constants';
 
+interface Props {
+  dialogOpened: boolean;
+  openCloseDialog: (opened: boolean) => void;
+}
+
 interface State {
-  cartOpened: boolean;
   wrapperRef: RefObject<HTMLDivElement>;
 }
 
-export default class CartDialog extends PureComponent<{}, State> {
-  constructor(props: any) {
+class CartDialog extends PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
-    this.openCloseCart = this.openCloseCart.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.state = {
-      cartOpened: false,
       wrapperRef: createRef<HTMLDivElement>(),
     };
   }
@@ -28,15 +34,12 @@ export default class CartDialog extends PureComponent<{}, State> {
 
   handleClickOutside(e: any) {
     !this.state.wrapperRef.current?.contains(e.target) &&
-      this.openCloseCart(false);
-  }
-
-  openCloseCart(cartOpened: boolean) {
-    this.setState({ cartOpened });
+      this.props.openCloseDialog(false);
   }
 
   render() {
-    const { cartOpened, wrapperRef } = this.state;
+    const { dialogOpened, openCloseDialog } = this.props;
+    const { wrapperRef } = this.state;
 
     return (
       <div className="cart-dialog" ref={wrapperRef}>
@@ -44,13 +47,24 @@ export default class CartDialog extends PureComponent<{}, State> {
           className="cart-icon"
           src={cartIcon}
           alt=""
-          onClick={() => this.openCloseCart(!cartOpened)}
+          onClick={() => openCloseDialog(!dialogOpened)}
+          draggable={false}
         />
 
-        <div className={`cart ${cartOpened ? "cart-opened" : ""}`}>
+        <div className={`cart ${dialogOpened ? "cart-opened" : ""}`}>
           <h3>My Bag</h3>
         </div>
       </div>
     );
   }
 }
+
+const mapStateToProps = (state: IState) => ({
+  dialogOpened: state.dialog.dialogOpened,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  openCloseDialog: bindActionCreators(dialogActions.dialogOpened.set, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartDialog);
