@@ -7,13 +7,17 @@
 }
 
 body {
-  overflow: hidden;
+  overflow-x: hidden;
   font-family: "Raleway", sans-serif;
 
   #root {
     height: 100vh;
-    width: calc(100vw - 8rem);
-    margin: 0 4rem;
+    width: 100vw;
+
+    > div {
+      width: calc(100vw - 8rem);
+      margin: 0 4rem;
+    }
   }
 }
 
@@ -58,4 +62,24 @@ a {
 
 .JPY::before {
   content: "\00A5 \00a0 ";
+}
+
+@mixin scrollbar($bg-color) {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: $bg-color;
+}
+
+::-webkit-scrollbar-track {
+  @include scrollbar(#fff);
+}
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  @include scrollbar(#5ece7b);
 }

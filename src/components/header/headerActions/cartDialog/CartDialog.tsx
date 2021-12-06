@@ -1,4 +1,4 @@
-import React, { Component, createRef, RefObject } from 'react';
+import React, { createRef, PureComponent, RefObject } from 'react';
 
 import { cartIcon } from '../../../../utils/constants';
 
@@ -7,7 +7,7 @@ interface State {
   wrapperRef: RefObject<HTMLDivElement>;
 }
 
-export default class CartDialog extends Component<{}, State> {
+export default class CartDialog extends PureComponent<{}, State> {
   constructor(props: any) {
     super(props);
     this.openCloseCart = this.openCloseCart.bind(this);

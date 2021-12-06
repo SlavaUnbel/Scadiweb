@@ -4,8 +4,16 @@ header {
   @include flex(row nowrap, center, space-between);
   position: fixed;
   top: 0;
-  width: calc(100% - 8rem);
+  width: 100%;
+  padding: 0 4rem;
   height: 5rem;
+  background: #fff;
+  transition: all 0.2s ease-in;
+  z-index: 3;
+
+  &.darker {
+    background: #c7ddf0;
+  }
 
   nav {
     @include flex(row nowrap, center, center);

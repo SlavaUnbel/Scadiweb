@@ -1,4 +1,4 @@
-import React, { Component, createRef, RefObject } from 'react';
+import React, { createRef, PureComponent, RefObject } from 'react';
 
 import { CURRENCIES } from '../../../../service/queries/currencies';
 import { expandIcon } from '../../../../utils/constants';
@@ -16,7 +16,7 @@ interface State {
   wrapperRef: RefObject<HTMLDivElement>;
 }
 
-class CurrenciesPicker extends Component<Props, State> {
+class CurrenciesPicker extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.openCloseCurrenciesDialog = this.openCloseCurrenciesDialog.bind(this);

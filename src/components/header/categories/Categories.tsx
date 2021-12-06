@@ -1,37 +1,52 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-type CategoriesTypes = "women" | "men" | "kids";
+import { CATEGORIES } from '../../../service/queries/categories';
+import withQuery from '../../../utils/withQuery';
 
-interface State {
-  categories: CategoriesTypes[];
-  active: CategoriesTypes;
+type Category = {
+  name: string;
+};
+
+interface Props {
+  data: {
+    categories: Category[];
+  };
 }
 
-export default class Categories extends Component<{}, State> {
-  state: Readonly<State> = {
-    categories: ["women", "men", "kids"],
-    active: "women",
-  };
+interface State {
+  active: string;
+}
 
-  toggleActive(active: CategoriesTypes) {
+class Categories extends PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.toggleActive = this.toggleActive.bind(this);
+    this.state = {
+      active: "",
+    };
+  }
+
+  toggleActive(active: string) {
     this.setState({ active });
   }
 
   render() {
-    const { categories, active } = this.state;
+    const { active } = this.state;
 
     return (
       <nav>
-        {categories.map((category) => (
+        {this.props.data?.categories?.map((category) => (
           <li
-            key={category}
-            className={active === category ? "active" : ""}
-            onClick={this.toggleActive.bind(this, category)}
+            key={category.name}
+            className={active === category.name ? "active" : ""}
+            onClick={() => this.toggleActive(category.name)}
           >
-            {category}
+            {category.name}
           </li>
         ))}
       </nav>
     );
   }
 }
+
+export default withQuery(Categories, CATEGORIES);
