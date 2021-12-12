@@ -5,6 +5,7 @@
 
   &.dialog-opened {
     background: rgba(57, 55, 72, 0.22);
+    pointer-events: none;
 
     h2 {
       padding: 0 4rem 5.5rem;
@@ -17,6 +18,7 @@
       .product {
         margin: 1rem;
         padding: 1rem;
+        z-index: -1;
       }
     }
   }
@@ -75,6 +77,11 @@
               transform: scale(0.95);
               box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
             }
+          }
+
+          &:active {
+            transform: scale(0.9) rotate(360deg);
+            animation: none;
           }
         }
 

@@ -1,0 +1,93 @@
+@import "../index.scss";
+
+.attributes-modal {
+  @include flex(row nowrap, center, center);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 5;
+
+  .modal-content {
+    @include flex(column nowrap, center, center);
+    padding: 1rem;
+    background: #fff;
+
+    .modal-title {
+      font-weight: 700;
+    }
+
+    .attributes {
+      @include flex(column nowrap, flex-start);
+      margin: 1rem;
+
+      .attribute {
+        @include flex(row nowrap, center, center);
+        padding: 0.5rem;
+
+        .attribute-name {
+          font-weight: 600;
+        }
+
+        .attribute-value {
+          @include flex(row nowrap, center, center);
+          border: 1px solid #1d1f22;
+          padding: 0.25rem;
+          margin: 0.5rem;
+          cursor: pointer;
+          background: #a6a6a6;
+          opacity: 0.5;
+          transition: all 0.4s ease;
+
+          &.selected,
+          &:hover {
+            background: #1d1f22;
+            color: #fff;
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .button-wrapper {
+      @include flex(row nowrap, center, center);
+
+      button {
+        width: 8.75rem;
+        outline: none;
+        background: none;
+        border: none;
+        text-transform: uppercase;
+        font-family: inherit;
+        font-size: 0.875rem;
+        font-weight: 600;
+        padding: 0.8rem 1.5rem;
+        margin: 0.5rem;
+        cursor: pointer;
+        transition: all 0.4s ease;
+
+        &.close-btn {
+          border: 1px solid #1d1f22;
+
+          &:hover {
+            background: #1d1f22;
+            color: #fff;
+          }
+        }
+
+        &.proceed-btn {
+          border: 1px solid transparent;
+          background: #5ece7b;
+          color: #fff;
+
+          &:hover {
+            border: 1px solid #5ece7b;
+            background: #eafdf0;
+            color: #5ece7b;
+          }
+        }
+      }
+    }
+  }
+}

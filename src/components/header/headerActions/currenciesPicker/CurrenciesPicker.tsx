@@ -1,3 +1,5 @@
+import '../../../../styles/currency.scss';
+
 import React, { createRef, PureComponent, RefObject } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
@@ -5,29 +7,30 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { currencyActions } from '../../../../redux/reducers/currencyReducer';
 import { IState } from '../../../../redux/reducers/rootReducer';
 import { CURRENCIES } from '../../../../service/queries/currencies';
-import { expandIcon } from '../../../../utils/constants';
+import { Icons } from '../../../../utils/constants';
 import withQuery from '../../../../utils/withQuery';
 
 interface Props {
   data: {
     currencies: string[];
   };
+
   chosenCurrency: string;
   changeCurrency: (currency: string) => void;
 }
 
 interface State {
-  currenciesDialogOpened: boolean;
+  opened: boolean;
   wrapperRef: RefObject<HTMLDivElement>;
 }
 
 class CurrenciesPicker extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.openCloseCurrenciesDialog = this.openCloseCurrenciesDialog.bind(this);
+    this.toggleCurrenciesDialog = this.toggleCurrenciesDialog.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.state = {
-      currenciesDialogOpened: false,
+      opened: false,
       wrapperRef: createRef<HTMLDivElement>(),
     };
   }
@@ -43,35 +46,33 @@ class CurrenciesPicker extends PureComponent<Props, State> {
   handleClickOutside(e: any) {
     this.state.wrapperRef.current &&
       !this.state.wrapperRef.current.contains(e.target) &&
-      this.openCloseCurrenciesDialog(false);
+      this.toggleCurrenciesDialog(false);
   }
 
-  openCloseCurrenciesDialog(currenciesDialogOpened: boolean) {
-    this.setState({ currenciesDialogOpened });
+  toggleCurrenciesDialog(opened: boolean) {
+    this.setState({ opened });
   }
 
   render() {
-    const { currenciesDialogOpened, wrapperRef } = this.state;
+    const { opened, wrapperRef } = this.state;
     const { chosenCurrency, changeCurrency } = this.props;
 
     return (
       <div
         className="currency"
-        onClick={() => this.openCloseCurrenciesDialog(!currenciesDialogOpened)}
+        onClick={() => this.toggleCurrenciesDialog(!opened)}
         ref={wrapperRef}
       >
         <span className={chosenCurrency} />
 
         <img
-          className={`expand ${
-            currenciesDialogOpened ? "currencies-opened" : ""
-          }`}
-          src={expandIcon}
+          className={`expand ${opened ? "currencies-opened" : ""}`}
+          src={Icons.expand}
           alt=""
           draggable={false}
         />
 
-        <ul className={currenciesDialogOpened ? "currencies-opened" : ""}>
+        <ul className={opened ? "currencies-opened" : ""}>
           {this.props.data?.currencies.map((currency) => (
             <li key={currency} onClick={() => changeCurrency(currency)}>
               <span className={currency} />

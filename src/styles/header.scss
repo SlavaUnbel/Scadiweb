@@ -12,7 +12,7 @@ header {
   z-index: 3;
 
   &.darker {
-    background: #c7ddf0;
+    background: #eafdf0;
   }
 
   nav {
@@ -60,77 +60,6 @@ header {
   .header-actions {
     @include flex(row nowrap, center, space-between);
     width: 4.5rem;
-
-    .currency {
-      @include flex(row nowrap, center, center);
-      cursor: pointer;
-      position: relative;
-
-      ul {
-        position: absolute;
-        top: 2rem;
-        box-shadow: 0px 4px 35px 0px rgba(168, 172, 176, 0.19);
-        transform: scale(0);
-        z-index: 2;
-        transition: all 0.3s ease;
-
-        &.currencies-opened {
-          transform: scale(1);
-          transform-origin: top center;
-          transition: all 0.5s ease;
-        }
-
-        li {
-          padding: 1rem 2rem 1rem 1rem;
-
-          &:hover {
-            font-weight: 500;
-          }
-        }
-      }
-
-      .expand {
-        height: 0.25rem;
-        margin-left: 0.25rem;
-        transition: all 0.3s ease;
-
-        &.currencies-opened {
-          transform: rotate(180deg);
-        }
-      }
-    }
-
-    .cart-dialog {
-      position: relative;
-
-      .cart-icon {
-        height: 1.25rem;
-        cursor: pointer;
-      }
-
-      .cart {
-        position: absolute;
-        background: #fff;
-        top: 3.25rem;
-        right: 0;
-        width: 20rem;
-        height: 35rem;
-        padding: 0.5rem;
-        transform: scale(0);
-        transition: all 0.3s ease;
-
-        &.cart-opened {
-          transform: scale(1);
-          transform-origin: top right;
-          transition: all 0.5s ease;
-        }
-
-        h3 {
-          line-height: 25.6px;
-          font-weight: 700;
-          font-size: 1rem;
-        }
-      }
-    }
+    height: 100%;
   }
 }

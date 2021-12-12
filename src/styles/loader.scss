@@ -1,0 +1,12 @@
+@import "../index.scss";
+
+.loader {
+  @include flex(row nowrap, center, center);
+  width: 100vw;
+  height: 100vh;
+
+  img {
+    width: 10rem;
+    height: 5rem;
+  }
+}

@@ -1,12 +1,16 @@
+import '../../../../styles/cart-dialog.scss';
+
 import React, { createRef, PureComponent, RefObject } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { dialogActions } from '../../../../redux/reducers/dialogReducer';
 import { IState } from '../../../../redux/reducers/rootReducer';
-import { cartIcon } from '../../../../utils/constants';
+import { Icons } from '../../../../utils/constants';
+import CartDetails from './cartDetails/CartDetails';
 
 interface Props {
+  totalItems: number;
   dialogOpened: boolean;
   openCloseDialog: (opened: boolean) => void;
 }
@@ -24,6 +28,13 @@ class CartDialog extends PureComponent<Props, State> {
     };
   }
 
+  componentDidUpdate(prevProps: Props) {
+    const { totalItems, openCloseDialog } = this.props;
+    if (prevProps.totalItems !== totalItems && totalItems === 0) {
+      openCloseDialog(false);
+    }
+  }
+
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
   }
@@ -33,38 +44,48 @@ class CartDialog extends PureComponent<Props, State> {
   }
 
   handleClickOutside(e: any) {
-    !this.state.wrapperRef.current?.contains(e.target) &&
-      this.props.openCloseDialog(false);
+    const { dialogOpened, openCloseDialog } = this.props;
+    const { wrapperRef } = this.state;
+
+    !wrapperRef.current?.contains(e.target) &&
+      dialogOpened &&
+      openCloseDialog(false);
   }
 
   render() {
-    const { dialogOpened, openCloseDialog } = this.props;
+    const { totalItems, dialogOpened, openCloseDialog } = this.props;
     const { wrapperRef } = this.state;
 
     return (
       <div className="cart-dialog" ref={wrapperRef}>
-        <img
-          className="cart-icon"
-          src={cartIcon}
-          alt=""
-          onClick={() => openCloseDialog(!dialogOpened)}
-          draggable={false}
-        />
+        <div onClick={() => openCloseDialog(!dialogOpened)}>
+          <img
+            className="cart-icon"
+            src={Icons.cart}
+            alt=""
+            draggable={false}
+          />
 
-        <div className={`cart ${dialogOpened ? "cart-opened" : ""}`}>
-          <h3>My Bag</h3>
+          {totalItems > 0 && (
+            <span className="cart-badge">
+              {totalItems < 10 ? totalItems : "9+"}
+            </span>
+          )}
         </div>
+
+        <CartDetails />
       </div>
     );
   }
 }
 
 const mapStateToProps = (state: IState) => ({
+  totalItems: state.cart.totalItems,
   dialogOpened: state.dialog.dialogOpened,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  openCloseDialog: bindActionCreators(dialogActions.dialogOpened.set, dispatch),
+  openCloseDialog: bindActionCreators(dialogActions.opened.setDialog, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartDialog);

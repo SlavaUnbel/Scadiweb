@@ -21,8 +21,12 @@ body {
       &.dialog-opened {
         margin: 0;
         width: 100vw;
-        height: 100vh;
       }
+    }
+
+    .attributes-modal {
+      margin: 0;
+      width: 100vw;
     }
   }
 }

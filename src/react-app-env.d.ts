@@ -1,10 +1,15 @@
 /// <reference types="react-scripts" />
 
+interface IWithLoading {
+  loading: boolean;
+}
+
 interface Category {
   name: string;
 }
 
 interface IProduct {
+  id: string;
   name: string;
   inStock: boolean;
   gallery: string[];
@@ -30,4 +35,18 @@ interface ProductItems {
 interface ProductPrices {
   currency: string;
   amount: number;
+}
+
+interface IProductInCart {
+  product: IProduct;
+  quantity: number;
+  selectedAttributes?: ProductAttributesInCart[];
+}
+
+interface ProductAttributesInCart {
+  id: string;
+  name: string;
+  type: string;
+  items: ProductItems[];
+  selected: ProductItems;
 }

@@ -1,5 +1,6 @@
 import { combineReducers, Store } from 'redux';
 
+import { cartReducer, CartState } from './cartReducer';
 import { categoryReducer, CategoryState } from './categoryReducer';
 import { currencyReducer, CurrencyState } from './currencyReducer';
 import { dialogReducer, DialogState } from './dialogReducer';
@@ -12,6 +13,7 @@ export type IState = {
   currency: CurrencyState;
   products: ProductsState;
   dialog: DialogState;
+  cart: CartState;
 };
 
 export default combineReducers({
@@ -19,4 +21,5 @@ export default combineReducers({
   currency: currencyReducer,
   products: productsReducer,
   dialog: dialogReducer,
+  cart: cartReducer,
 });

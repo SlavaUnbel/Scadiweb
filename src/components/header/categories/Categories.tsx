@@ -11,6 +11,7 @@ interface Props {
   data: {
     categories: Category[];
   };
+
   activeCategory: string;
   changeCategory: (category: string) => void;
 }

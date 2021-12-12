@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { categoryActions } from '../../redux/reducers/categoryReducer';
-import { brandIcon } from '../../utils/constants';
+import { IState } from '../../redux/reducers/rootReducer';
+import { Icons } from '../../utils/constants';
 import Categories from './categories/Categories';
 import HeaderActions from './headerActions/HeaderActions';
 
 interface Props {
+  dialogOpened: boolean;
   getAllProducts: () => void;
 }
 
@@ -40,15 +42,15 @@ class Header extends PureComponent<Props, State> {
 
   render() {
     const { scrolled } = this.state;
-    const { getAllProducts } = this.props;
+    const { dialogOpened, getAllProducts } = this.props;
 
     return (
-      <header className={scrolled ? "darker" : ""}>
+      <header className={scrolled && !dialogOpened ? "darker" : ""}>
         <Categories />
 
         <img
           className="brand"
-          src={brandIcon}
+          src={Icons.brand}
           alt=""
           onClick={getAllProducts}
           draggable={false}
@@ -60,6 +62,10 @@ class Header extends PureComponent<Props, State> {
   }
 }
 
+const mapStateToProps = (state: IState) => ({
+  dialogOpened: state.dialog.dialogOpened,
+});
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   getAllProducts: bindActionCreators(
     categoryActions.activeCategory.getAll,
@@ -67,4 +73,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   ),
 });
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

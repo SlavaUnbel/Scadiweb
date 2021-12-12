@@ -1,0 +1,211 @@
+@import "../index.scss";
+
+.cart-dialog {
+  @include flex(row nowrap, center, center);
+  position: relative;
+  height: 100%;
+
+  .cart-icon {
+    height: 1.25rem;
+    cursor: pointer;
+  }
+
+  .cart-badge {
+    @include flex(row nowrap, center, center);
+    position: absolute;
+    top: 1rem;
+    right: -1rem;
+    background: #000;
+    color: #fff;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .cart {
+    position: absolute;
+    background: #fff;
+    top: 5rem;
+    right: 0;
+    width: 20rem;
+    min-height: auto;
+    max-height: 35rem;
+    padding: 0.5rem 1rem 1.25rem 0.5rem;
+    transform: scale(0);
+    transition: all 0.3s ease;
+    overflow: auto;
+
+    &.cart-opened {
+      transform: scale(1);
+      transform-origin: top right;
+      transition: all 0.5s ease;
+    }
+
+    &.scrolled {
+      .button-wrapper {
+        background: #000;
+      }
+    }
+
+    .header {
+      @include flex(row nowrap, center, space-between);
+      width: 100%;
+      margin-bottom: 1.5rem;
+
+      h3 {
+        flex: 2;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      p {
+        flex: 7;
+        font-weight: 500;
+        font-size: 1rem;
+      }
+    }
+
+    .cart-items {
+      @include flex(column nowrap, center, center);
+      width: 100%;
+
+      .cart-item {
+        @include flex(row nowrap, center, center);
+        width: 100%;
+        padding: 1.5rem 0;
+
+        .cart-item-info {
+          @include flex(column nowrap, flex-start, flex-start);
+          font-size: 1rem;
+          line-height: 1.5rem;
+          flex: 2;
+
+          .item-name {
+            font-weight: 300;
+            flex: 1;
+            padding-bottom: 0.25rem;
+          }
+
+          .item-price {
+            font-weight: 500;
+            flex: 2;
+            padding-bottom: 1.5rem;
+          }
+
+          .attributes {
+            @include flex(row wrap, center, flex-start);
+            flex: 5;
+
+            span {
+              font-weight: 500;
+            }
+
+            .attribute-value {
+              @include flex(row nowrap, center, center);
+              border: 1px solid #1d1f22;
+              padding: 0.25rem;
+              margin: 0.25rem;
+              background: #1d1f22;
+              color: #fff;
+            }
+          }
+        }
+
+        .item-quantity {
+          @include flex(column nowrap, center, space-between);
+          flex: 1;
+          height: 8.5rem;
+          font-weight: 500;
+
+          .add,
+          .remove {
+            @include flex(row nowrap, center, center);
+            width: 1.5rem;
+            height: 1.5rem;
+            outline: none;
+            border: 1px solid #1d1f22;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-size: 0.9rem;
+
+            &:hover {
+              background: #1d1f22;
+              color: #fff;
+            }
+          }
+        }
+
+        .img-wrapper {
+          @include flex(column nowrap, center, flex-end);
+          height: 8.5rem;
+          width: 7rem;
+          flex: 2;
+          cursor: pointer;
+
+          .item-image {
+            height: 100%;
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .total {
+      @include flex(row nowrap, center, space-between);
+      width: 100%;
+      font-size: 1rem;
+      padding-top: 1rem;
+
+      p {
+        font-weight: 500;
+      }
+
+      .amount {
+        font-weight: 700;
+      }
+    }
+
+    .button-wrapper {
+      @include flex(row nowrap, center, space-between);
+      width: 100%;
+      margin-top: 2rem;
+
+      button {
+        width: 8.75rem;
+        outline: none;
+        background: none;
+        border: none;
+        text-transform: uppercase;
+        font-family: inherit;
+        font-size: 0.875rem;
+        font-weight: 600;
+        padding: 0.8rem 1.5rem;
+        cursor: pointer;
+        transition: all 0.4s ease;
+
+        &.cart-btn {
+          border: 1px solid #1d1f22;
+
+          &:hover {
+            background: #1d1f22;
+            color: #fff;
+          }
+        }
+
+        &.check-btn {
+          border: 1px solid transparent;
+          background: #5ece7b;
+          color: #fff;
+
+          &:hover {
+            border: 1px solid #5ece7b;
+            background: #eafdf0;
+            color: #5ece7b;
+          }
+        }
+      }
+    }
+  }
+}
