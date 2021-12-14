@@ -69,7 +69,11 @@ class ProductDetailsInfo extends PureComponent<Props> {
           </div>
         </div>
 
-        <button className="add-to-cart" onClick={this.addToCart}>
+        <button
+          className="add-to-cart"
+          onClick={this.addToCart}
+          disabled={!product?.inStock}
+        >
           add to cart
         </button>
 

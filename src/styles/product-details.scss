@@ -197,6 +197,28 @@
       font-size: 1rem;
       font-weight: 400;
       line-height: 1.5rem;
+
+      li {
+        margin: 0.5rem 0.5rem 0 0;
+      }
+
+      h1 {
+        margin: 0 0.5rem 0.5rem 0;
+        line-height: 2rem;
+        font-size: 1.5rem;
+      }
+
+      h3 {
+        margin: 1.5rem 0.5rem 0.5rem 0;
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+
+      p {
+        margin-right: 0.5rem;
+      }
     }
   }
 }
