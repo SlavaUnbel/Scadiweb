@@ -1,7 +1,9 @@
 @import "../index.scss";
 
 .products {
-  padding-top: 10rem;
+  padding-top: 5rem;
+  height: calc(100vh - 5rem);
+  user-select: none;
 
   &.dialog-opened {
     background: rgba(57, 55, 72, 0.22);

@@ -22,7 +22,7 @@ class Categories extends PureComponent<Props> {
 
     return (
       <nav>
-        {this.props.data?.categories?.map((category) => {
+        {this.props.data.categories.map((category) => {
           const name = category.name;
 
           return (

@@ -4,6 +4,7 @@ import { cartReducer, CartState } from './cartReducer';
 import { categoryReducer, CategoryState } from './categoryReducer';
 import { currencyReducer, CurrencyState } from './currencyReducer';
 import { dialogReducer, DialogState } from './dialogReducer';
+import { productDetailsReducer, ProductDetailsState } from './productDetailsReucer';
 import { productsReducer, ProductsState } from './productsReducer';
 
 export type IStore = Store<IState>;
@@ -14,6 +15,7 @@ export type IState = {
   products: ProductsState;
   dialog: DialogState;
   cart: CartState;
+  productDetails: ProductDetailsState;
 };
 
 export default combineReducers({
@@ -22,4 +24,5 @@ export default combineReducers({
   products: productsReducer,
   dialog: dialogReducer,
   cart: cartReducer,
+  productDetails: productDetailsReducer,
 });

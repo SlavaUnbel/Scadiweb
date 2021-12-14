@@ -8,6 +8,7 @@
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   z-index: 5;
+  user-select: none;
 
   .modal-content {
     @include flex(column nowrap, center, center);
@@ -18,33 +19,34 @@
       font-weight: 700;
     }
 
-    .attributes {
+    .attributes-wrapper {
       @include flex(column nowrap, flex-start);
       margin: 1rem;
 
-      .attribute {
+      .attribute-name {
         @include flex(row nowrap, center, center);
         padding: 0.5rem;
 
-        .attribute-name {
+        .label {
           font-weight: 600;
         }
 
-        .attribute-value {
+        .attribute {
           @include flex(row nowrap, center, center);
-          border: 1px solid #1d1f22;
-          padding: 0.25rem;
-          margin: 0.5rem;
-          cursor: pointer;
-          background: #a6a6a6;
-          opacity: 0.5;
-          transition: all 0.4s ease;
 
-          &.selected,
-          &:hover {
-            background: #1d1f22;
-            color: #fff;
-            opacity: 1;
+          .attribute-value {
+            @include flex(row nowrap, center, center);
+            border: 1px solid #1d1f22;
+            padding: 0.25rem;
+            margin: 0.5rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+
+            &.selected,
+            &:hover {
+              background: #1d1f22;
+              color: #fff;
+            }
           }
         }
       }

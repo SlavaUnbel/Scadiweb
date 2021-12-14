@@ -36,17 +36,12 @@
     transform: scale(0);
     transition: all 0.3s ease;
     overflow: auto;
+    user-select: none;
 
     &.cart-opened {
       transform: scale(1);
       transform-origin: top right;
       transition: all 0.5s ease;
-    }
-
-    &.scrolled {
-      .button-wrapper {
-        background: #000;
-      }
     }
 
     .header {
@@ -144,6 +139,7 @@
           flex: 2;
           cursor: pointer;
 
+          a,
           .item-image {
             height: 100%;
             width: 100%;

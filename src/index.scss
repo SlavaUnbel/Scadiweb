@@ -11,15 +11,15 @@ body {
   font-family: "Raleway", sans-serif;
 
   #root {
-    height: 100vh;
+    height: calc(100vh - 5rem);
     width: 100vw;
 
     > div {
       width: calc(100vw - 8rem);
-      margin: 0 4rem;
+      margin: 5rem 4rem 0;
 
       &.dialog-opened {
-        margin: 0;
+        margin: 5rem 0 0;
         width: 100vw;
       }
     }

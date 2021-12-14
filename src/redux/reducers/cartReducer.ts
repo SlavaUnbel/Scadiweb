@@ -18,7 +18,11 @@ const symbiotes = {
       ...state,
       products,
     }),
-    changeQantity: (
+    add: (state: CartState, newProduct: IProductInCart) => ({
+      ...state,
+      products: (() => [...state.products, newProduct])(),
+    }),
+    changeQuantity: (
       state: CartState,
       id: string,
       action: "add" | "remove"

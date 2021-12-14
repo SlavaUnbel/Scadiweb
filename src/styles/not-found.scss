@@ -6,6 +6,7 @@ $main-color: #1d1f22;
   @include flex(column nowrap, center, center);
   height: 100%;
   color: $main-color;
+  user-select: none;
 
   img {
     width: 60rem;

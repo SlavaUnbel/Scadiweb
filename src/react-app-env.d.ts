@@ -11,6 +11,7 @@ interface Category {
 interface IProduct {
   id: string;
   name: string;
+  brand: string;
   inStock: boolean;
   gallery: string[];
   description: string;

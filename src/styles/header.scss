@@ -10,43 +10,48 @@ header {
   background: #fff;
   transition: all 0.2s ease-in;
   z-index: 3;
+  user-select: none;
 
   &.darker {
     background: #eafdf0;
+
+    ul {
+      background: #eafdf0;
+    }
   }
 
   nav {
     @include flex(row nowrap, center, center);
     height: 100%;
+  }
 
-    li {
-      @include flex(row nowrap, center, center);
-      height: 100%;
-      text-transform: uppercase;
-      padding: 0 1rem;
-      font-size: 0.9rem;
-      cursor: pointer;
-      position: relative;
+  li {
+    @include flex(row nowrap, center, center);
+    height: 100%;
+    text-transform: uppercase;
+    padding: 0 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 0.15rem;
+      background: #5ece7b;
+      transform-origin: left;
+      transform: scale(0);
+      bottom: 0;
+      transition: all 0.5s ease;
+    }
+
+    &.active {
+      transition: all 0.5s ease;
+      color: #5ece7b;
 
       &::before {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 0.15rem;
-        background: #5ece7b;
-        transform-origin: left;
-        transform: scale(0);
-        bottom: 0;
-        transition: all 0.5s ease;
-      }
-
-      &.active {
-        transition: all 0.5s ease;
-        color: #5ece7b;
-
-        &::before {
-          transform: scale(1);
-        }
+        transform: scale(1);
       }
     }
   }

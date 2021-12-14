@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { cartActions } from '../../../redux/reducers/cartReducer';
 import { dialogActions } from '../../../redux/reducers/dialogReducer';
+import { productDetailsActions } from '../../../redux/reducers/productDetailsReucer';
 import { IState } from '../../../redux/reducers/rootReducer';
 import { Icons } from '../../../utils/constants';
 
@@ -15,7 +17,7 @@ interface Props {
   setCartItems: (products: IProductInCart[]) => void;
 
   setModalOpened: (opened: boolean) => void;
-  chooseProduct: (product: IProduct) => void;
+  setChosenProduct: (product: IProduct | null) => void;
 }
 
 interface State {
@@ -30,7 +32,6 @@ class Product extends PureComponent<Props, State> {
     this.mouseEnter = this.mouseEnter.bind(this);
     this.mouseLeave = this.mouseLeave.bind(this);
     this.handleAddToCart = this.handleAddToCart.bind(this);
-    this.redirectToPDP = this.redirectToPDP.bind(this);
     this.state = {
       hovered: false,
       modalOpened: false,
@@ -54,14 +55,18 @@ class Product extends PureComponent<Props, State> {
   }
 
   handleAddToCart(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    const { product, products, setCartItems, setModalOpened, chooseProduct } =
-      this.props;
+    const {
+      product,
+      products,
+      setCartItems,
+      setModalOpened,
+      setChosenProduct,
+    } = this.props;
     const { inCart } = this.state;
-    e.stopPropagation();
 
     if (product.attributes.length > 0) {
       setModalOpened(true);
-      chooseProduct(product);
+      setChosenProduct(product);
       this.setState({ modalOpened: true });
     } else {
       !inCart && setCartItems([...products, { product, quantity: 1 }]);
@@ -69,32 +74,21 @@ class Product extends PureComponent<Props, State> {
     }
   }
 
-  redirectToPDP(item: string, exists: boolean) {
-    if (!exists) return;
-    const params = new URLSearchParams();
-    params.set("product", item);
-    window.history.replaceState(
-      {},
-      "",
-      decodeURIComponent(`/details?${params}`)
-    );
-  }
-
   render() {
-    const {
-      chosenCurrency,
-      product: { gallery, name, prices, inStock },
-    } = this.props;
+    const { chosenCurrency } = this.props;
+    const { gallery, name, prices, inStock } = this.props.product;
     const { hovered } = this.state;
+    const price = prices.find(
+      (price) => price.currency === chosenCurrency
+    )?.amount;
 
     return (
-      <>
-        <div
-          className={`product ${hovered ? "hovered" : ""}`}
-          onMouseEnter={this.mouseEnter}
-          onMouseLeave={this.mouseLeave}
-          onClick={() => this.redirectToPDP(name, inStock)}
-        >
+      <div
+        className={`product ${hovered ? "hovered" : ""}`}
+        onMouseEnter={this.mouseEnter}
+        onMouseLeave={this.mouseLeave}
+      >
+        <Link to={`/details/${name}`}>
           <img
             src={gallery[0]}
             alt=""
@@ -104,29 +98,27 @@ class Product extends PureComponent<Props, State> {
 
           {!inStock && <p className="out-of-stock-text">out of stock</p>}
 
-          {inStock && (
-            <div
-              className={`cart-button ${hovered ? "appeared" : ""}`}
-              onClick={(e) => this.handleAddToCart(e)}
-            >
-              <img
-                src={Icons.whiteCart}
-                alt=""
-                className="cart-icon"
-                draggable={false}
-              />
-            </div>
-          )}
-
           <p className="title">{name}</p>
 
           <p className="price">
-            <span className={chosenCurrency} />
-
-            {prices.find((price) => price.currency === chosenCurrency)?.amount}
+            <span className={chosenCurrency} /> {price}
           </p>
-        </div>
-      </>
+        </Link>
+
+        {inStock && (
+          <div
+            className={`cart-button ${hovered ? "appeared" : ""}`}
+            onClick={(e) => this.handleAddToCart(e)}
+          >
+            <img
+              src={Icons.whiteCart}
+              alt=""
+              className="cart-icon"
+              draggable={false}
+            />
+          </div>
+        )}
+      </div>
     );
   }
 }
@@ -138,7 +130,10 @@ const mapStateToProps = (state: IState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setModalOpened: bindActionCreators(dialogActions.opened.setModal, dispatch),
   setCartItems: bindActionCreators(cartActions.products.set, dispatch),
-  chooseProduct: bindActionCreators(dialogActions.product.choose, dispatch),
+  setChosenProduct: bindActionCreators(
+    productDetailsActions.currentProduct.set,
+    dispatch
+  ),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

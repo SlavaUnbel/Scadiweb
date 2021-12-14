@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { cartActions } from '../../../../../redux/reducers/cartReducer';
@@ -19,11 +20,6 @@ interface Props {
 }
 
 class CartDetails extends PureComponent<Props> {
-  constructor(props: Props) {
-    super(props);
-    this.redirectToPDP = this.redirectToPDP.bind(this);
-  }
-
   componentDidUpdate(prevProps: Props) {
     const { products, chosenCurrency, setTotalPrice, setTotalItems } =
       this.props;
@@ -50,16 +46,6 @@ class CartDetails extends PureComponent<Props> {
     }
   }
 
-  redirectToPDP(item: string) {
-    const params = new URLSearchParams();
-    params.set("product", item);
-    window.history.replaceState(
-      {},
-      "",
-      decodeURIComponent(`/details?${params}`)
-    );
-  }
-
   render() {
     const { dialogOpened, products } = this.props;
 
@@ -78,13 +64,14 @@ class CartDetails extends PureComponent<Props> {
                 <CartDetailsItemQuantity item={item} idx={idx} />
 
                 <div className="img-wrapper">
-                  <img
-                    src={item.product.gallery[0]}
-                    alt=""
-                    className="item-image"
-                    draggable={false}
-                    onClick={() => this.redirectToPDP(product.name)}
-                  />
+                  <Link to={`/details/${product.name}`}>
+                    <img
+                      src={item.product.gallery[0]}
+                      alt=""
+                      className="item-image"
+                      draggable={false}
+                    />
+                  </Link>
                 </div>
               </div>
             ) : null;

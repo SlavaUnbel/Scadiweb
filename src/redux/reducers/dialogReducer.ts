@@ -24,7 +24,7 @@ const symbiotes = {
     }),
   },
   product: {
-    choose: (state: DialogState, chosenProduct: IProduct) => ({
+    choose: (state: DialogState, chosenProduct: IProduct | null) => ({
       ...state,
       chosenProduct,
     }),

@@ -1,10 +1,15 @@
 import React, { createRef, PureComponent, RefObject } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+
+import { productDetailsActions } from '../../../redux/reducers/productDetailsReucer';
 
 interface Props {
-  selectedAttributes: ProductAttributesInCart[];
   idx: number;
   item: ProductItems;
   attr: ProductAttributes;
+
+  upsertAttributes: (attr: ProductAttributesInCart) => void;
 }
 
 interface State {
@@ -12,7 +17,7 @@ interface State {
   ref: RefObject<HTMLSpanElement>;
 }
 
-export default class AttributeValue extends PureComponent<Props, State> {
+class AttributeValue extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.upsert = this.upsert.bind(this);
@@ -31,17 +36,13 @@ export default class AttributeValue extends PureComponent<Props, State> {
   }
 
   upsert(element: ProductAttributesInCart) {
-    const { selectedAttributes, idx } = this.props;
+    const { idx, upsertAttributes } = this.props;
     const { children } = this.state;
 
-    const i = selectedAttributes.findIndex((el) => el.name === element.name);
-
-    i > -1
-      ? (selectedAttributes[i] = element)
-      : selectedAttributes.push(element);
+    upsertAttributes(element);
 
     children.forEach((item) => item?.classList?.remove("selected"));
-    children[idx + 1]?.classList.add("selected");
+    children[idx]?.classList.add("selected");
   }
 
   render() {
@@ -59,3 +60,12 @@ export default class AttributeValue extends PureComponent<Props, State> {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  upsertAttributes: bindActionCreators(
+    productDetailsActions.selectedAttributes.upsert,
+    dispatch
+  ),
+});
+
+export default connect(null, mapDispatchToProps)(AttributeValue);

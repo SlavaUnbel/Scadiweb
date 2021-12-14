@@ -6,43 +6,53 @@ import { bindActionCreators, Dispatch } from 'redux';
 
 import { cartActions } from '../../redux/reducers/cartReducer';
 import { dialogActions } from '../../redux/reducers/dialogReducer';
+import { productDetailsActions } from '../../redux/reducers/productDetailsReucer';
 import { IState } from '../../redux/reducers/rootReducer';
 import AttributeValue from './attributeValue/AttributeValue';
 
 interface Props {
-  products: IProductInCart[];
-  setProducts: (products: IProductInCart[]) => void;
+  product: IProduct | null;
+  setChosenProduct: (chosen: IProduct | null) => void;
+  addProduct: (product: IProductInCart) => void;
 
-  product: IProduct;
   modalOpened: boolean;
   setModalOpened: (opened: boolean) => void;
-}
 
-interface State {
   selectedAttributes: ProductAttributesInCart[];
+  clearAttributes: () => void;
 }
 
-class AttributesModal extends PureComponent<Props, State> {
+class AttributesModal extends PureComponent<Props> {
   constructor(props: Props) {
     super(props);
     this.proceed = this.proceed.bind(this);
-    this.state = {
-      selectedAttributes: [],
-    };
+    this.closeModal = this.closeModal.bind(this);
   }
 
   proceed() {
-    const { products, setProducts, product, setModalOpened } = this.props;
-    const { selectedAttributes } = this.state;
+    const {
+      product,
+      setChosenProduct,
+      addProduct,
+      selectedAttributes,
+      clearAttributes,
+    } = this.props;
+    if (!product || selectedAttributes.length !== product.attributes.length)
+      return;
 
-    setProducts([...products, { product, quantity: 1, selectedAttributes }]);
-    this.setState({ selectedAttributes: [] });
+    addProduct({ product, quantity: 1, selectedAttributes });
+    clearAttributes();
+    setChosenProduct(null);
+    this.closeModal();
+  }
+
+  closeModal() {
+    const { setModalOpened } = this.props;
     setModalOpened(false);
   }
 
   render() {
-    const { product, modalOpened, setModalOpened } = this.props;
-    const { selectedAttributes } = this.state;
+    const { product, modalOpened } = this.props;
 
     return (
       <>
@@ -51,28 +61,27 @@ class AttributesModal extends PureComponent<Props, State> {
             <div className="modal-content">
               <div className="modal-title">Select Suitable Attributes</div>
 
-              <div className="attributes">
-                {product.attributes.map((attr) => (
-                  <div className="attribute" key={attr.name}>
-                    <span className="attribute-name">{attr.name}: </span>
-                    {attr.items.map((item, idx) => (
-                      <AttributeValue
-                        key={idx}
-                        selectedAttributes={selectedAttributes}
-                        idx={idx}
-                        item={item}
-                        attr={attr}
-                      />
-                    ))}
+              <div className="attributes-wrapper">
+                {product?.attributes.map((attr) => (
+                  <div className="attribute-name" key={attr.name}>
+                    <span className="label">{attr.name}: </span>
+
+                    <div className="attribute">
+                      {attr.items.map((item, idx) => (
+                        <AttributeValue
+                          key={idx}
+                          idx={idx}
+                          item={item}
+                          attr={attr}
+                        />
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
 
               <div className="button-wrapper">
-                <button
-                  className="close-btn"
-                  onClick={() => setModalOpened(false)}
-                >
+                <button className="close-btn" onClick={this.closeModal}>
                   close
                 </button>
 
@@ -89,12 +98,22 @@ class AttributesModal extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: IState) => ({
-  products: state.cart.products,
+  modalOpened: state.dialog.modalOpened,
+  product: state.productDetails.currentProduct,
+  selectedAttributes: state.productDetails.selectedAttributes,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setProducts: bindActionCreators(cartActions.products.set, dispatch),
+  addProduct: bindActionCreators(cartActions.products.add, dispatch),
+  setChosenProduct: bindActionCreators(
+    productDetailsActions.currentProduct.set,
+    dispatch
+  ),
   setModalOpened: bindActionCreators(dialogActions.opened.setModal, dispatch),
+  clearAttributes: bindActionCreators(
+    productDetailsActions.selectedAttributes.clear,
+    dispatch
+  ),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AttributesModal);

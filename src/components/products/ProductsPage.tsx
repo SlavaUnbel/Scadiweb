@@ -35,40 +35,27 @@ class ProductsPage extends PureComponent<Props> {
   componentDidMount() {
     const { setProducts, data, loading } = this.props;
 
-    !loading && setProducts(data?.category?.products);
+    !loading && setProducts(data.category.products);
   }
 
   componentDidUpdate(prevProps: Props) {
     const { activeCategory, setProducts } = this.props;
+    const { products } = this.props.data.category;
 
     if (prevProps.activeCategory !== activeCategory) {
       activeCategory === "all"
-        ? setProducts(this.props.data?.category?.products)
-        : setProducts(
-            this.props.data?.category?.products.filter(
-              (product) => product.category === activeCategory
-            )
-          );
+        ? setProducts(products)
+        : setProducts(products.filter((p) => p.category === activeCategory));
     }
   }
 
   render() {
-    const {
-      activeCategory,
-      chosenCurrency,
-      products,
-      dialogOpened,
-      modalOpened,
-      chosenProduct,
-    } = this.props;
+    const { activeCategory, chosenCurrency, products, dialogOpened } =
+      this.props;
 
     return (
       <>
-        <div
-          className={`products ${
-            dialogOpened || modalOpened ? "dialog-opened" : ""
-          }`}
-        >
+        <div className={`products ${dialogOpened ? "dialog-opened" : ""}`}>
           <h2>
             {activeCategory === "all"
               ? "All Goods"
@@ -86,7 +73,7 @@ class ProductsPage extends PureComponent<Props> {
           </div>
         </div>
 
-        <AttributesModal product={chosenProduct} modalOpened={modalOpened} />
+        <AttributesModal />
       </>
     );
   }
@@ -97,8 +84,6 @@ const mapStateToProps = (state: IState) => ({
   chosenCurrency: state.currency.chosenCurrency,
   products: state.products.products,
   dialogOpened: state.dialog.dialogOpened,
-  modalOpened: state.dialog.modalOpened,
-  chosenProduct: state.dialog.chosenProduct,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

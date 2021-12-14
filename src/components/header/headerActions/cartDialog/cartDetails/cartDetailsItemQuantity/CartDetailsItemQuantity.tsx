@@ -70,7 +70,7 @@ const mapStateToProps = (state: IState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setProducts: bindActionCreators(cartActions.products.set, dispatch),
   changeQuantity: bindActionCreators(
-    cartActions.products.changeQantity,
+    cartActions.products.changeQuantity,
     dispatch
   ),
 });
