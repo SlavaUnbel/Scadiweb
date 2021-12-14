@@ -24,7 +24,7 @@
     cursor: pointer;
   }
 
-  .cart {
+  .cart-wrapper {
     position: absolute;
     background: #fff;
     top: 5rem;
@@ -168,6 +168,13 @@
       width: 100%;
       margin-top: 2rem;
 
+      a {
+        @include flex(row nowrap, center);
+        color: #1d1f22;
+        transition: all 0.4s ease;
+      }
+
+      a button,
       button {
         width: 8.75rem;
         outline: none;

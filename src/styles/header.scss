@@ -21,50 +21,58 @@ header {
   }
 
   nav {
-    @include flex(row nowrap, center, center);
+    @include flex(row nowrap, center, flex-start);
     height: 100%;
-  }
+    flex: 2;
 
-  li {
-    @include flex(row nowrap, center, center);
-    height: 100%;
-    text-transform: uppercase;
-    padding: 0 1rem;
-    font-size: 0.9rem;
-    cursor: pointer;
-    position: relative;
-
-    &::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 0.15rem;
-      background: #5ece7b;
-      transform-origin: left;
-      transform: scale(0);
-      bottom: 0;
-      transition: all 0.5s ease;
-    }
-
-    &.active {
-      transition: all 0.5s ease;
-      color: #5ece7b;
+    li {
+      @include flex(row nowrap, center, center);
+      height: 100%;
+      text-transform: uppercase;
+      padding: 0 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      position: relative;
 
       &::before {
-        transform: scale(1);
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 0.15rem;
+        background: #5ece7b;
+        transform-origin: left;
+        transform: scale(0);
+        bottom: 0;
+        transition: all 0.5s ease;
+      }
+
+      &.active {
+        transition: all 0.5s ease;
+        color: #5ece7b;
+
+        &::before {
+          transform: scale(1);
+        }
       }
     }
   }
 
-  .brand {
+  .brand-wrapper {
+    @include flex(row nowrap, center, center);
+    flex: 7.5;
+  }
+
+  .brand,
+  a {
     height: 2rem;
     width: auto;
     cursor: pointer;
   }
 
   .header-actions {
-    @include flex(row nowrap, center, space-between);
+    @include flex(row nowrap, center, flex-end);
     width: 4.5rem;
     height: 100%;
+    flex: 2;
   }
 }

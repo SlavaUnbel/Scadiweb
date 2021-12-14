@@ -2,13 +2,15 @@ import React, { createRef, PureComponent, RefObject } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
-import { productDetailsActions } from '../../../redux/reducers/productDetailsReucer';
+import { productDetailsActions } from '../../../../redux/reducers/productDetailsReucer';
+import { IState } from '../../../../redux/reducers/rootReducer';
 
 interface Props {
   idx: number;
   item: ProductItems;
   attr: ProductAttributes;
 
+  currentProduct: IProduct | null;
   upsertAttributes: (attr: ProductAttributesInCart) => void;
 }
 
@@ -36,8 +38,9 @@ class AttributeValue extends PureComponent<Props, State> {
   }
 
   upsert(element: ProductAttributesInCart) {
-    const { idx, upsertAttributes } = this.props;
+    const { idx, currentProduct, upsertAttributes } = this.props;
     const { children } = this.state;
+    if (!currentProduct?.inStock) return;
 
     upsertAttributes(element);
 
@@ -61,6 +64,10 @@ class AttributeValue extends PureComponent<Props, State> {
   }
 }
 
+const mapStateToProps = (state: IState) => ({
+  currentProduct: state.productDetails.currentProduct,
+});
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   upsertAttributes: bindActionCreators(
     productDetailsActions.selectedAttributes.upsert,
@@ -68,4 +75,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   ),
 });
 
-export default connect(null, mapDispatchToProps)(AttributeValue);
+export default connect(mapStateToProps, mapDispatchToProps)(AttributeValue);

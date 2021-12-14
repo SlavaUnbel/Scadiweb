@@ -2,14 +2,18 @@ import { createSymbiote } from 'redux-symbiote';
 
 export interface DialogState {
   dialogOpened: boolean;
-  modalOpened: boolean;
+  attributesModalOpened: boolean;
   chosenProduct: IProduct | null;
+  paymentModalOpened: boolean;
+  processingPayment: boolean;
 }
 
 const initialDialogState: DialogState = {
   dialogOpened: false,
-  modalOpened: false,
+  attributesModalOpened: false,
   chosenProduct: null,
+  paymentModalOpened: false,
+  processingPayment: true,
 };
 
 const symbiotes = {
@@ -18,15 +22,28 @@ const symbiotes = {
       ...state,
       dialogOpened,
     }),
-    setModal: (state: DialogState, modalOpened: boolean) => ({
+    setAttributesModal: (
+      state: DialogState,
+      attributesModalOpened: boolean
+    ) => ({
       ...state,
-      modalOpened,
+      attributesModalOpened,
+    }),
+    setPaymentModal: (state: DialogState, paymentModalOpened: boolean) => ({
+      ...state,
+      paymentModalOpened,
     }),
   },
   product: {
     choose: (state: DialogState, chosenProduct: IProduct | null) => ({
       ...state,
       chosenProduct,
+    }),
+  },
+  payment: {
+    changeStatus: (state: DialogState, processingPayment: boolean) => ({
+      ...state,
+      processingPayment,
     }),
   },
 };

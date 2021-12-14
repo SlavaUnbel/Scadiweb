@@ -9,7 +9,6 @@ import { IState } from '../../redux/reducers/rootReducer';
 import { PRODUCTS } from '../../service/queries/products';
 import withHeader from '../../utils/withHeader';
 import withQuery from '../../utils/withQuery';
-import AttributesModal from '../attributesModal/AttributesModal';
 import Product from './product/Product';
 
 interface Props extends IWithLoading {
@@ -54,27 +53,23 @@ class ProductsPage extends PureComponent<Props> {
       this.props;
 
     return (
-      <>
-        <div className={`products ${dialogOpened ? "dialog-opened" : ""}`}>
-          <h2>
-            {activeCategory === "all"
-              ? "All Goods"
-              : `Category: ${activeCategory}`}
-          </h2>
+      <div className={`products ${dialogOpened ? "dialog-opened" : ""}`}>
+        <h2>
+          {activeCategory === "all"
+            ? "All Goods"
+            : `Category: ${activeCategory}`}
+        </h2>
 
-          <div className="products-wrapper">
-            {products?.map((product) => (
-              <Product
-                key={product.name}
-                product={product}
-                chosenCurrency={chosenCurrency}
-              />
-            ))}
-          </div>
+        <div className="products-wrapper">
+          {products?.map((product) => (
+            <Product
+              key={product.name}
+              product={product}
+              chosenCurrency={chosenCurrency}
+            />
+          ))}
         </div>
-
-        <AttributesModal />
-      </>
+      </div>
     );
   }
 }

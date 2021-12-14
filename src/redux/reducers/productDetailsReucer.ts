@@ -46,7 +46,6 @@ const symbiotes = {
         const newSelectedAttrs = [...state.selectedAttributes];
 
         const i = newSelectedAttrs.findIndex((el) => el.name === element.name);
-
         i > -1
           ? (newSelectedAttrs[i] = element)
           : newSelectedAttrs.push(element);

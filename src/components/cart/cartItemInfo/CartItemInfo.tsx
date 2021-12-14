@@ -2,34 +2,36 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { IState } from '../../../../../../redux/reducers/rootReducer';
+import { IState } from '../../../redux/reducers/rootReducer';
 
 interface Props {
   item: IProductInCart;
   chosenCurrency: string;
 }
 
-class CartDetailsItemInfo extends PureComponent<Props> {
+class CartItemInfo extends PureComponent<Props> {
   render() {
-    const { product, quantity, selectedAttributes } = this.props.item;
     const { chosenCurrency } = this.props;
-    const price = product.prices.find(
+    const { product, selectedAttributes } = this.props.item;
+    const { brand, name, prices } = product;
+    const price = prices.find(
       (price) => price.currency === chosenCurrency
     )?.amount;
 
     return (
       <div className="cart-item-info">
-        <div className="item-name">{product.name}</div>
+        <div className="cart-item-brand">{brand}</div>
 
-        <div className="item-price">
-          <span className={chosenCurrency} />{" "}
-          {price && (price * quantity).toFixed(2)}
+        <div className="cart-item-name">{name}</div>
+
+        <div className="cart-item-price">
+          <span className={chosenCurrency} /> {price}
         </div>
 
         {selectedAttributes && (
           <div className="item-attributes">
             {selectedAttributes.map((attribute) => (
-              <div className="attributes" key={attribute.id}>
+              <div className="cart-item-attributes" key={attribute.id}>
                 <span>{attribute.name}: </span>
 
                 <div
@@ -67,9 +69,6 @@ const mapStateToProps = (state: IState) => ({
   chosenCurrency: state.currency.chosenCurrency,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
+const mapDispatchToProps = (_: Dispatch) => ({});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CartDetailsItemInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(CartItemInfo);

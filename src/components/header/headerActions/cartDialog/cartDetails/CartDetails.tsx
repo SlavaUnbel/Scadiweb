@@ -50,7 +50,7 @@ class CartDetails extends PureComponent<Props> {
     const { dialogOpened, products } = this.props;
 
     return (
-      <div className={`cart ${dialogOpened ? "cart-opened" : ""}`}>
+      <div className={`cart-wrapper ${dialogOpened ? "cart-opened" : ""}`}>
         <CartDetailsHeader />
 
         <div className="cart-items">

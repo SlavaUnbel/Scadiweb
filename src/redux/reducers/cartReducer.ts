@@ -40,6 +40,12 @@ const symbiotes = {
         return newCart;
       })(),
     }),
+    clear: (state: CartState) => ({
+      ...state,
+      products: [],
+      totalItems: 0,
+      totalPrice: 0,
+    }),
   },
   totalItems: {
     set: (state: CartState, totalItems: number) => ({

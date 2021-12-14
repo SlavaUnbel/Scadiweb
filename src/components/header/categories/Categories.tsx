@@ -19,22 +19,29 @@ interface Props {
 class Categories extends PureComponent<Props> {
   render() {
     const { activeCategory, changeCategory } = this.props;
+    const path = window.location.pathname;
 
     return (
       <nav>
-        {this.props.data.categories.map((category) => {
-          const name = category.name;
+        {path === "/" ? (
+          this.props.data.categories.map((category) => {
+            const name = category.name;
 
-          return (
-            <li
-              key={name}
-              className={activeCategory === name ? "active" : ""}
-              onClick={() => changeCategory(name)}
-            >
-              {name}
-            </li>
-          );
-        })}
+            return (
+              <li
+                key={name}
+                className={activeCategory === name ? "active" : ""}
+                onClick={() => changeCategory(name)}
+              >
+                {name}
+              </li>
+            );
+          })
+        ) : (
+          <li className="active">
+            {path === "/cart" ? "cart" : "product details"}
+          </li>
+        )}
       </nav>
     );
   }

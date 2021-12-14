@@ -1,0 +1,161 @@
+@import "../index.scss";
+
+.cart {
+  padding-top: 5rem;
+  height: calc(100vh - 5rem);
+  user-select: none;
+
+  &.dialog-opened {
+    background: rgba(57, 55, 72, 0.22);
+    pointer-events: none;
+
+    .header {
+      padding: 0 4rem 2rem;
+    }
+
+    .cart-items-wrapper {
+      width: calc(100% - 17rem);
+      margin: 0 4rem;
+    }
+  }
+
+  .header {
+    @include flex(row nowrap, center, space-between);
+    width: calc(100% - 9rem);
+    padding-bottom: 2rem;
+
+    h2 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      line-height: 2.5rem;
+      text-transform: capitalize;
+    }
+
+    button {
+      @include flex(row nowrap, center, space-between);
+      outline: none;
+      text-transform: uppercase;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      border: 1px solid #5ece7b;
+      background: #5ece7b;
+      color: #fff;
+
+      > div {
+        padding-left: 1.5rem;
+      }
+
+      &:hover {
+        border: 1px solid #5ece7b;
+        background: #eafdf0;
+        color: #5ece7b;
+      }
+    }
+  }
+
+  .cart-items-wrapper {
+    height: calc(100% - 5rem);
+    width: calc(100% - 9rem);
+    overflow-y: auto;
+
+    .cart-items {
+      @include flex(column nowrap, center);
+      width: 100%;
+
+      .separator {
+        @include flex();
+        width: 100%;
+        height: 0.1rem;
+        background: #e5e5e5;
+      }
+
+      .cart-item {
+        @include flex(row nowrap, center, space-between);
+        width: 100%;
+        padding: 1.5rem 1.5rem 1.5rem 0;
+
+        .cart-item-info {
+          @include flex(column nowrap, flex-start, flex-start);
+          flex: 10;
+
+          .cart-item-brand {
+            font-size: 1.75rem;
+            font-weight: 600;
+            line-height: 2rem;
+            padding-bottom: 1rem;
+          }
+
+          .cart-item-name {
+            font-size: 1.75rem;
+            font-weight: 400;
+            line-height: 2rem;
+          }
+
+          .cart-item-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.5rem;
+            padding: 0.75rem 0;
+          }
+
+          .cart-item-attributes {
+            @include flex(row wrap, center, flex-start);
+            flex: 5;
+
+            span {
+              font-size: 1.25rem;
+              font-weight: 600;
+            }
+
+            .attribute-value {
+              @include flex(row nowrap, center, center);
+              border: 1px solid #1d1f22;
+              padding: 0.75rem;
+              margin: 0.25rem;
+              background: #1d1f22;
+              color: #fff;
+            }
+          }
+        }
+
+        .item-quantity {
+          @include flex(column nowrap, center, space-between);
+          flex: 1;
+          height: 10rem;
+          font-weight: 500;
+
+          .add,
+          .remove {
+            @include flex(row nowrap, center, center);
+            width: 2rem;
+            height: 2rem;
+            outline: none;
+            border: 1px solid #1d1f22;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-size: 0.9rem;
+
+            &:hover {
+              background: #1d1f22;
+              color: #fff;
+            }
+          }
+        }
+
+        .img-wrapper {
+          height: 11.5rem;
+          width: 8.75rem;
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+}

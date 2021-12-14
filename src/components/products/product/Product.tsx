@@ -78,9 +78,9 @@ class Product extends PureComponent<Props, State> {
     const { chosenCurrency } = this.props;
     const { gallery, name, prices, inStock } = this.props.product;
     const { hovered } = this.state;
-    const price = prices.find(
-      (price) => price.currency === chosenCurrency
-    )?.amount;
+    const price = prices
+      .find((price) => price.currency === chosenCurrency)
+      ?.amount.toFixed(2);
 
     return (
       <div
@@ -128,7 +128,10 @@ const mapStateToProps = (state: IState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setModalOpened: bindActionCreators(dialogActions.opened.setModal, dispatch),
+  setModalOpened: bindActionCreators(
+    dialogActions.opened.setAttributesModal,
+    dispatch
+  ),
   setCartItems: bindActionCreators(cartActions.products.set, dispatch),
   setChosenProduct: bindActionCreators(
     productDetailsActions.currentProduct.set,

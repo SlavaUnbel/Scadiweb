@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { cartActions } from '../../../redux/reducers/cartReducer';
 import { productDetailsActions } from '../../../redux/reducers/productDetailsReucer';
 import { IState } from '../../../redux/reducers/rootReducer';
-import AttributeValue from '../../attributesModal/attributeValue/AttributeValue';
+import AttributeValue from '../../modal/attributesModal/attributeValue/AttributeValue';
 
 interface Props {
   product: IProduct | null;
@@ -39,9 +39,9 @@ class ProductDetailsInfo extends PureComponent<Props> {
 
   render() {
     const { product, chosenCurrency, descRef } = this.props;
-    const price = product?.prices.find(
-      (price) => price.currency === chosenCurrency
-    );
+    const price = product?.prices
+      .find((price) => price.currency === chosenCurrency)
+      ?.amount.toFixed(2);
 
     return (
       <div className="product-details-wrapper">
@@ -65,7 +65,7 @@ class ProductDetailsInfo extends PureComponent<Props> {
           <span className="label">price:</span>
 
           <div className="amount">
-            <span className={chosenCurrency} /> {price?.amount}
+            <span className={chosenCurrency} /> {price}
           </div>
         </div>
 

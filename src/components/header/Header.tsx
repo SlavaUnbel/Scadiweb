@@ -60,11 +60,7 @@ class Header extends PureComponent<Props, State> {
 
     return (
       <header className={scrolled && !dialogOpened ? "darker" : ""}>
-        {window.location.pathname === "/" ? (
-          <Categories />
-        ) : (
-          <li className="active">product details</li>
-        )}
+        <Categories />
 
         <BrandIconWrapper>
           <img
