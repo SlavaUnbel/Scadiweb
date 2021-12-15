@@ -168,13 +168,6 @@
       width: 100%;
       margin-top: 2rem;
 
-      a {
-        @include flex(row nowrap, center);
-        color: #1d1f22;
-        transition: all 0.4s ease;
-      }
-
-      a button,
       button {
         width: 8.75rem;
         outline: none;
@@ -188,12 +181,26 @@
         cursor: pointer;
         transition: all 0.4s ease;
 
+        &:disabled {
+          pointer-events: none;
+          cursor: default;
+        }
+
         &.cart-btn {
           border: 1px solid #1d1f22;
+          color: #1d1f22;
+
+          a {
+            color: #1d1f22;
+            transition: all 0.4s ease;
+          }
 
           &:hover {
             background: #1d1f22;
-            color: #fff;
+
+            a {
+              color: #fff;
+            }
           }
         }
 

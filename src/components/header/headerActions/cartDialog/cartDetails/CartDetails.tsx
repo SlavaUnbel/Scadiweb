@@ -13,7 +13,7 @@ import CartDetailsTotal from './cartDetailsTotal/CartDetailsTotal';
 
 interface Props {
   dialogOpened: boolean;
-  chosenCurrency: string;
+  chosenCurrency: ProductCurrency;
   products: IProductInCart[];
   setTotalPrice: (total: number) => void;
   setTotalItems: (total: number) => void;
@@ -23,9 +23,10 @@ class CartDetails extends PureComponent<Props> {
   componentDidUpdate(prevProps: Props) {
     const { products, chosenCurrency, setTotalPrice, setTotalItems } =
       this.props;
+    const { label } = chosenCurrency;
     const prices = products
       .map((item) =>
-        item.product.prices.find((price) => price.currency === chosenCurrency)
+        item.product.prices.find((price) => price.currency.label === label)
       )
       .map((item) => item?.amount);
 

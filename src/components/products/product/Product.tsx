@@ -11,7 +11,7 @@ import { Icons } from '../../../utils/constants';
 
 interface Props {
   product: IProduct;
-  chosenCurrency: string;
+  chosenCurrency: ProductCurrency;
 
   products: IProductInCart[];
   setCartItems: (products: IProductInCart[]) => void;
@@ -76,10 +76,11 @@ class Product extends PureComponent<Props, State> {
 
   render() {
     const { chosenCurrency } = this.props;
+    const { symbol, label } = chosenCurrency;
     const { gallery, name, prices, inStock } = this.props.product;
     const { hovered } = this.state;
     const price = prices
-      .find((price) => price.currency === chosenCurrency)
+      .find((price) => price.currency.label === label)
       ?.amount.toFixed(2);
 
     return (
@@ -101,7 +102,7 @@ class Product extends PureComponent<Props, State> {
           <p className="title">{name}</p>
 
           <p className="price">
-            <span className={chosenCurrency} /> {price}
+            {symbol} {price}
           </p>
         </Link>
 
@@ -125,6 +126,7 @@ class Product extends PureComponent<Props, State> {
 
 const mapStateToProps = (state: IState) => ({
   products: state.cart.products,
+  chosenCurrency: state.currency.chosenCurrency,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

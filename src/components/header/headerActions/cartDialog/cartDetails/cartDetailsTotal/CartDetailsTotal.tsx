@@ -8,16 +8,17 @@ import { IState } from '../../../../../../redux/reducers/rootReducer';
 interface Props {
   products: IProductInCart[];
   totalPrice: number;
-  chosenCurrency: string;
+  chosenCurrency: ProductCurrency;
   setTotalPrice: (total: number) => void;
 }
 
 class CartDetailsTotal extends PureComponent<Props> {
   componentDidUpdate(prevProps: Props) {
     const { products, chosenCurrency, setTotalPrice } = this.props;
+    const { label } = chosenCurrency;
     const prices = products
       .map((item) =>
-        item.product.prices.find((price) => price.currency === chosenCurrency)
+        item.product.prices.find((price) => price.currency.label === label)
       )
       .map((item) => item?.amount);
 
@@ -39,13 +40,14 @@ class CartDetailsTotal extends PureComponent<Props> {
 
   render() {
     const { totalPrice, chosenCurrency } = this.props;
+    const { symbol } = chosenCurrency;
 
     return (
       <div className="total">
         <p>Total:</p>
 
         <p className="amount">
-          <span className={chosenCurrency} /> {totalPrice}
+          {symbol} {totalPrice}
         </p>
       </div>
     );

@@ -23,7 +23,10 @@ export const PRODUCTS = gql`
           }
         }
         prices {
-          currency
+          currency {
+            label
+            symbol
+          }
           amount
         }
       }

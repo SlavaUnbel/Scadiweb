@@ -6,7 +6,7 @@ import { dialogActions } from '../../../redux/reducers/dialogReducer';
 import { IState } from '../../../redux/reducers/rootReducer';
 
 interface Props {
-  chosenCurrency: string;
+  chosenCurrency: ProductCurrency;
   totalPrice: number;
   setModalOpened: (opened: boolean) => void;
   setProcessingPayment: (processing: boolean) => void;
@@ -26,6 +26,7 @@ class CartHeader extends PureComponent<Props> {
 
   render() {
     const { totalPrice, chosenCurrency } = this.props;
+    const { symbol } = chosenCurrency;
 
     return (
       <div className="header">
@@ -34,7 +35,7 @@ class CartHeader extends PureComponent<Props> {
         <button onClick={this.handleOrder}>
           buy
           <div>
-            <span className={chosenCurrency} /> {totalPrice}
+            {symbol} {totalPrice}
           </div>
         </button>
       </div>

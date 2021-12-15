@@ -12,11 +12,11 @@ import withQuery from '../../../../utils/withQuery';
 
 interface Props {
   data: {
-    currencies: string[];
+    currencies: ProductCurrency[];
   };
 
-  chosenCurrency: string;
-  changeCurrency: (currency: string) => void;
+  chosenCurrency: ProductCurrency;
+  changeCurrency: (currency: ProductCurrency) => void;
 }
 
 interface State {
@@ -56,6 +56,7 @@ class CurrenciesPicker extends PureComponent<Props, State> {
   render() {
     const { opened, wrapperRef } = this.state;
     const { chosenCurrency, changeCurrency } = this.props;
+    const { symbol } = chosenCurrency;
 
     return (
       <div
@@ -63,7 +64,7 @@ class CurrenciesPicker extends PureComponent<Props, State> {
         onClick={() => this.toggleCurrenciesDialog(!opened)}
         ref={wrapperRef}
       >
-        <span className={chosenCurrency} />
+        {symbol}
 
         <img
           className={`expand ${opened ? "currencies-opened" : ""}`}
@@ -73,12 +74,15 @@ class CurrenciesPicker extends PureComponent<Props, State> {
         />
 
         <ul className={opened ? "currencies-opened" : ""}>
-          {this.props.data?.currencies.map((currency) => (
-            <li key={currency} onClick={() => changeCurrency(currency)}>
-              <span className={currency} />
-              {currency}
-            </li>
-          ))}
+          {this.props.data?.currencies.map((currency) => {
+            const { label, symbol } = currency;
+
+            return (
+              <li key={symbol} onClick={() => changeCurrency(currency)}>
+                <span>{symbol}</span> <span>{label}</span>
+              </li>
+            );
+          })}
         </ul>
       </div>
     );

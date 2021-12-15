@@ -38,15 +38,13 @@ class CartDetailsButtons extends PureComponent<Props> {
 
     return (
       <div className="button-wrapper">
-        <Link to="/cart">
-          <button
-            className="cart-btn"
-            onClick={this.handleCloseDialog}
-            disabled={disabled}
-          >
-            view bag
-          </button>
-        </Link>
+        <button
+          className="cart-btn"
+          onClick={this.handleCloseDialog}
+          disabled={disabled}
+        >
+          <Link to="/cart">view bag</Link>
+        </button>
 
         <button
           className="check-btn"

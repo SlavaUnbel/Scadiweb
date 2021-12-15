@@ -1,16 +1,16 @@
 import { createSymbiote } from 'redux-symbiote';
 
 export interface CurrencyState {
-  chosenCurrency: string;
+  chosenCurrency: ProductCurrency;
 }
 
 const initialCurrencyState: CurrencyState = {
-  chosenCurrency: "USD",
+  chosenCurrency: { label: "USD", symbol: "$" },
 };
 
 const symbiotes = {
   chosenCurrency: {
-    set: (state: CurrencyState, chosenCurrency: string) => ({
+    set: (state: CurrencyState, chosenCurrency: ProductCurrency) => ({
       ...state,
       chosenCurrency,
     }),

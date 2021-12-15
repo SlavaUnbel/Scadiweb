@@ -34,8 +34,13 @@ interface ProductItems {
 }
 
 interface ProductPrices {
-  currency: string;
+  currency: ProductCurrency;
   amount: number;
+}
+
+interface ProductCurrency {
+  label: string;
+  symbol: string;
 }
 
 interface IProductInCart {

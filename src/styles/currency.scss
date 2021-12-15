@@ -23,7 +23,14 @@
     }
 
     li {
+      @include flex(row nowrap, center, flex-start);
       padding: 1rem 2rem 1rem 1rem;
+
+      span {
+        &:first-child {
+          padding-right: 0.25rem;
+        }
+      }
 
       &:hover {
         font-weight: 500;

@@ -50,7 +50,7 @@ class PaymentModal extends PureComponent<Props> {
             <Loader />
           ) : (
             <Link to="/">
-              <button onClick={this.handleFinish}>go home</button>
+              <button onClick={this.handleFinish}>visit homepage</button>
             </Link>
           )}
         </>

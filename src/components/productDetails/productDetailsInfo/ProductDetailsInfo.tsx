@@ -11,7 +11,7 @@ interface Props {
   product: IProduct | null;
   addProduct: (product: IProductInCart) => void;
 
-  chosenCurrency: string;
+  chosenCurrency: ProductCurrency;
 
   selectedAttributes: ProductAttributesInCart[];
   clearAttributes: () => void;
@@ -39,8 +39,9 @@ class ProductDetailsInfo extends PureComponent<Props> {
 
   render() {
     const { product, chosenCurrency, descRef } = this.props;
+    const { label, symbol } = chosenCurrency;
     const price = product?.prices
-      .find((price) => price.currency === chosenCurrency)
+      .find((price) => price.currency.label === label)
       ?.amount.toFixed(2);
 
     return (
@@ -65,7 +66,7 @@ class ProductDetailsInfo extends PureComponent<Props> {
           <span className="label">price:</span>
 
           <div className="amount">
-            <span className={chosenCurrency} /> {price}
+            {symbol} {price}
           </div>
         </div>
 

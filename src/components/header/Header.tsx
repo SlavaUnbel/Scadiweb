@@ -26,7 +26,6 @@ class Header extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.handleScroll = this.handleScroll.bind(this);
-    this.handleBrandIconClick = this.handleBrandIconClick.bind(this);
     this.state = {
       scrolled: false,
     };
@@ -47,15 +46,8 @@ class Header extends PureComponent<Props, State> {
     this.setState({ scrolled: window.scrollY >= 80 ? true : false });
   }
 
-  handleBrandIconClick() {
-    const { getAllProducts, setCurrentProduct } = this.props;
-    window.location.pathname === "/"
-      ? getAllProducts()
-      : setCurrentProduct(null);
-  }
-
   render() {
-    const { dialogOpened } = this.props;
+    const { dialogOpened, setCurrentProduct } = this.props;
     const { scrolled } = this.state;
 
     return (
@@ -67,7 +59,7 @@ class Header extends PureComponent<Props, State> {
             className="brand"
             src={Icons.brand}
             alt=""
-            onClick={this.handleBrandIconClick}
+            onClick={() => setCurrentProduct(null)}
             draggable={false}
           />
         </BrandIconWrapper>

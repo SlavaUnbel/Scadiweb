@@ -6,16 +6,17 @@ import { IState } from '../../../redux/reducers/rootReducer';
 
 interface Props {
   item: IProductInCart;
-  chosenCurrency: string;
+  chosenCurrency: ProductCurrency;
 }
 
 class CartItemInfo extends PureComponent<Props> {
   render() {
     const { chosenCurrency } = this.props;
+    const { label, symbol } = chosenCurrency;
     const { product, selectedAttributes } = this.props.item;
     const { brand, name, prices } = product;
     const price = prices.find(
-      (price) => price.currency === chosenCurrency
+      (price) => price.currency.label === label
     )?.amount;
 
     return (
@@ -25,7 +26,7 @@ class CartItemInfo extends PureComponent<Props> {
         <div className="cart-item-name">{name}</div>
 
         <div className="cart-item-price">
-          <span className={chosenCurrency} /> {price}
+          {symbol} {price}
         </div>
 
         {selectedAttributes && (

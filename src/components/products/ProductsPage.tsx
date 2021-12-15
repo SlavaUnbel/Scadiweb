@@ -20,7 +20,6 @@ interface Props extends IWithLoading {
   };
 
   activeCategory: string;
-  chosenCurrency: string;
 
   products: IProduct[];
   setProducts: (products: IProduct[]) => void;
@@ -49,24 +48,15 @@ class ProductsPage extends PureComponent<Props> {
   }
 
   render() {
-    const { activeCategory, chosenCurrency, products, dialogOpened } =
-      this.props;
+    const { activeCategory, products, dialogOpened } = this.props;
 
     return (
       <div className={`products ${dialogOpened ? "dialog-opened" : ""}`}>
-        <h2>
-          {activeCategory === "all"
-            ? "All Goods"
-            : `Category: ${activeCategory}`}
-        </h2>
+        <h2>Category: {activeCategory}</h2>
 
         <div className="products-wrapper">
           {products?.map((product) => (
-            <Product
-              key={product.name}
-              product={product}
-              chosenCurrency={chosenCurrency}
-            />
+            <Product key={product.name} product={product} />
           ))}
         </div>
       </div>
@@ -76,7 +66,6 @@ class ProductsPage extends PureComponent<Props> {
 
 const mapStateToProps = (state: IState) => ({
   activeCategory: state.category.activeCategory,
-  chosenCurrency: state.currency.chosenCurrency,
   products: state.products.products,
   dialogOpened: state.dialog.dialogOpened,
 });
